@@ -9,9 +9,13 @@
 *
 **************************************************************/
 
+#include "assignment5.h"
+#include "avoidanceSensor.h"
+#include "lineSensor.h"
+
 // function prototypes
-void forward();
-void backward();
+void forward(int speed, int motor);
+void backward(int speed, int motor);
 void stop();
 
 // used if the program is quit
