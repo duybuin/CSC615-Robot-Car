@@ -7,9 +7,9 @@
 #include "DEV_Config.h"
 #include "PCA9685.h"
 
-int lineData = 0;
-int objectData = 0;
+int leftLineSensor = 1;
+int middleLineSensor = 1;
+int rightLineSensor = 1;
+// int objectData = 0;
 
-void setLineData(int data);
-
-void setObjectData(int data);
+// void setObjectData(int data);

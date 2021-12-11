@@ -4,8 +4,13 @@
 #include <signal.h>
 #include <pthread.h>
 #include <wiringPi.h>
+#include "main.h"
 
-#define LINESENSOR 2
+#define LEFT 0
+#define MIDDLE 2
+#define RIGHT 3
 
-void* line(void* args);
-void setLineData(int data);
+void* line(void* args, int lineSensor);
+void setLeftLineData(int data);
+void setMidLineData(int data);
+void setRightLineData(int data);

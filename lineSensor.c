@@ -18,22 +18,43 @@
 // initialize the mutex
 pthread_mutex_t lineMutex = PTHREAD_MUTEX_INITIALIZER;
 
-void* line(void* args) {
-    pinMode(LINESENSOR, INPUT);
+void* line(void* args, int lineSensor) {
+    pinMode(lineSensor, INPUT);
     // infinite loop
     while(1) {
         // if sensor receives input
-        if (digitalRead(LINESENSOR) == HIGH) {
+        if (digitalRead(lineSensor) == HIGH) {
             // update our data and keep it safe with mutex locking
-            pthread_mutex_lock(&lineMutex);
-            setLineData(0);
-            pthread_mutex_unlock(&lineMutex);
+            if (lineSensor == MIDDLE) {
+                pthread_mutex_lock(&lineMutex);
+                middleLineSensor = 0;
+                pthread_mutex_unlock(&lineMutex);
+            } else if (lineSensor == LEFT) {
+                pthread_mutex_lock(&lineMutex);
+                leftLineSensor = 0;
+                pthread_mutex_unlock(&lineMutex);
+            } else if (lineSensor == RIGHT) {
+                pthread_mutex_lock(&lineMutex);
+                rightLineSensor = 0;
+                pthread_mutex_unlock(&lineMutex);
+            }
         }
-        // same as above but if the sensor isn't receiving HIGH input
-        if (digitalRead(LINESENSOR) == LOW) {
-            pthread_mutex_lock(&lineMutex);
-            setLineData(1);
-            pthread_mutex_unlock(&lineMutex);
+
+        if (digitalRead(lineSensor) == LOW) {
+            // update our data and keep it safe with mutex locking
+            if (lineSensor == MIDDLE) {
+                pthread_mutex_lock(&lineMutex);
+                middleLineSensor = 1;
+                pthread_mutex_unlock(&lineMutex);
+            } else if (lineSensor == LEFT) {
+                pthread_mutex_lock(&lineMutex);
+                leftLineSensor = 1;
+                pthread_mutex_unlock(&lineMutex);
+            } else if (lineSensor == RIGHT) {
+                pthread_mutex_lock(&lineMutex);
+                rightLineSensor = 1;
+                pthread_mutex_unlock(&lineMutex);
+            }
         }
     }
 }

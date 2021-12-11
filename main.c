@@ -28,7 +28,6 @@ void Handler(int signo) {
 }
 // 0 is left motor, 1 is right motor
 void forward(int speed, int motor) {
-    // int speed = 100;
     printf("Running forwards...\n");
     PCA9685_SetPwmDutyCycle(PCA_CHANNEL_0, speed);
     PCA9685_SetLevel(PCA_CHANNEL_1, 0);
@@ -37,30 +36,14 @@ void forward(int speed, int motor) {
     PCA9685_SetPwmDutyCycle(PCA_CHANNEL_5, speed);
     PCA9685_SetLevel(PCA_CHANNEL_3, 0);
     PCA9685_SetLevel(PCA_CHANNEL_4, 1);
-
-    // sleep(3); // wait 3 seconds
-    /*while(speed > 15) {
-      speed -= 5;
-      PCA9685_SetPwmDutyCycle(PCA_CHANNEL_0, speed);
-      printf("Current speed: %d\n", speed);
-      delay(500);
-    }
-    stop();*/
 }
 
 // 0 is left motor, 0 is right motor
 void backward(int speed, int motor) {
     printf("Running backwards...\n");
-    // int speed = 15;
     PCA9685_SetPwmDutyCycle(PCA_CHANNEL_0, speed);
     PCA9685_SetLevel(PCA_CHANNEL_1, 1);
     PCA9685_SetLevel(PCA_CHANNEL_2, 0);
-    /*while (speed < 100) {
-      speed += 5;
-      PCA9685_SetPwmDutyCycle(PCA_CHANNEL_0, speed);
-      printf("Current speed: %d\n", speed);
-      delay(500);
-    }*/
 }
 
 // stops the motor
@@ -75,9 +58,9 @@ void setLineData(int data) {
     lineData = data;
 }
 
-void setObjectData(int data) {
+/*void setObjectData(int data) {
     objectData = data;
-}
+}*/
 
 int main() {
     // setup
