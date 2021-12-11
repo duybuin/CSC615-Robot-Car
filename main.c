@@ -9,7 +9,7 @@
 *
 **************************************************************/
 
-#include "assignment5.h"
+#include "main.h"
 #include "avoidanceSensor.h"
 #include "lineSensor.h"
 
@@ -23,6 +23,7 @@ void stop();
 void Handler(int signo) {
   printf("Motor Stop\n");
   PCA9685_SetPwmDutyCycle(PCA_CHANNEL_0, 0);
+  PCA9685_SetPwmDutyCycle(PCA_CHANNEL_5, 0);
   exit(0);
 }
 // 0 is left motor, 1 is right motor
@@ -30,8 +31,13 @@ void forward(int speed, int motor) {
     // int speed = 100;
     printf("Running forwards...\n");
     PCA9685_SetPwmDutyCycle(PCA_CHANNEL_0, speed);
-    PCA9685_SetLevel(PCA_CHANNEL_1, 1);
+    PCA9685_SetLevel(PCA_CHANNEL_1, 0);
     PCA9685_SetLevel(PCA_CHANNEL_2, 1);
+
+    PCA9685_SetPwmDutyCycle(PCA_CHANNEL_5, speed);
+    PCA9685_SetLevel(PCA_CHANNEL_3, 0);
+    PCA9685_SetLevel(PCA_CHANNEL_4, 1);
+
     // sleep(3); // wait 3 seconds
     /*while(speed > 15) {
       speed -= 5;
@@ -79,13 +85,13 @@ int main() {
     PCA9685_Init(0x40);
     PCA9685_SetPWMFreq(100);
 
-    pthread_t thread1, thread2;
+    // pthread_t thread1, thread2;
     // create thread for line sensor
-    pthread_create(&thread1, NULL, &line, NULL);
+    // pthread_create(&thread1, NULL, &line, NULL);
     // create thread for IR object sensor
-    pthread_create(&thread2, NULL, &avoidance, NULL);
+    // pthread_create(&thread2, NULL, &avoidance, NULL);
     // infinite loop until program is terminated
-    while(1) {
+    /* while(1) {
         // if line thread received input and set our variable
         if (lineData == 1) {
             printf("line detected\n");
@@ -95,11 +101,11 @@ int main() {
             printf("object detected\n");
         }
 
-    }
+    }*/
 
     signal(SIGINT, Handler);
 
-    forward();
+    forward(100, 1);
 
     // infinite loop for when the motor
     // reaches the backward function to
