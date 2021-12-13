@@ -26,12 +26,12 @@ void* avoidance(void* args) {
         // and keep it safe/consistent with mutex
         if (digitalRead(AVOIDANCESENSOR) == HIGH) {
             pthread_mutex_lock(&objectMutex);
-            setObjectData(0);
+            // setObjectData(0);
             pthread_mutex_unlock(&objectMutex);
         }
         if (digitalRead(AVOIDANCESENSOR) == LOW) {
             pthread_mutex_lock(&objectMutex);
-            setObjectData(1);
+            // setObjectData(1);
             pthread_mutex_unlock(&objectMutex);
         }
     }

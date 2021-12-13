@@ -54,9 +54,9 @@ void stop() {
 }
 
 // functions for setting data
-void setLineData(int data) {
+/*void setLineData(int data) {
     lineData = data;
-}
+}*/
 
 /*void setObjectData(int data) {
     objectData = data;

@@ -18,6 +18,10 @@
 // initialize the mutex
 pthread_mutex_t lineMutex = PTHREAD_MUTEX_INITIALIZER;
 
+int leftLineSensor = 1;
+int middleLineSensor = 1;
+int rightLineSensor = 1;
+
 void* line(void* args, int lineSensor) {
     pinMode(lineSensor, INPUT);
     // infinite loop

@@ -9,4 +9,4 @@
 
 void* avoidance(void* args);
 
-void setObjectData(int data);
+// void setObjectData(int data);
