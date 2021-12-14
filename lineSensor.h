@@ -14,7 +14,7 @@ extern int leftLineSensor;
 extern int middleLineSensor;
 extern int rightLineSensor;
 
-void* line(void* args, int lineSensor);
+void* line(void* args);
 // void setLeftLineData(int data);
 // void setMidLineData(int data);
 // void setRightLineData(int data);

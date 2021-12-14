@@ -30,12 +30,23 @@ void Handler(int signo) {
 void forward(int speed, int motor) {
     printf("Running forwards...\n");
     PCA9685_SetPwmDutyCycle(PCA_CHANNEL_0, speed);
-    PCA9685_SetLevel(PCA_CHANNEL_1, 0);
-    PCA9685_SetLevel(PCA_CHANNEL_2, 1);
+    PCA9685_SetLevel(PCA_CHANNEL_1, 1);
+    PCA9685_SetLevel(PCA_CHANNEL_2, 0);
 
     PCA9685_SetPwmDutyCycle(PCA_CHANNEL_5, speed);
     PCA9685_SetLevel(PCA_CHANNEL_3, 0);
     PCA9685_SetLevel(PCA_CHANNEL_4, 1);
+    while(1) {
+      if (leftLineSensor == 0) {
+        printf("we need to turn right");
+      }
+      if (middleLineSensor == 0) {
+        printf("we're in the middle");
+      }
+      if (rightLineSensor == 0) {
+        printf("we need to turn left");
+      }
+    }
 }
 
 // 0 is left motor, 0 is right motor
@@ -62,15 +73,32 @@ void stop() {
     objectData = data;
 }*/
 
+typedef struct {
+  int lineSensorPin;
+} lineSensorArgs;
+
 int main() {
     // setup
     wiringPiSetup();
     PCA9685_Init(0x40);
     PCA9685_SetPWMFreq(100);
 
-    // pthread_t thread1, thread2;
-    // create thread for line sensor
-    // pthread_create(&thread1, NULL, &line, NULL);
+    pthread_t lineThreads[3];
+    // create thread for line sensors
+    for (int i = 0; i < 3; i++) {
+      lineSensorArgs *args = malloc(sizeof *args);
+      if (i == 0) {
+        args->lineSensorPin = 0;
+      } else if (i == 1) {
+        args->lineSensorPin = 2;
+      } else if (i == 2) {
+        args->lineSensorPin = 3;
+      }
+      pthread_create(&lineThreads[i], NULL, line, args);
+    }
+    // pthread_create(&lineThread1, NULL, &line, NULL);
+    // pthread_create(&lineThread2, NULL, &line, NULL);
+    // pthread_create(&lineThread3, NULL, &line, NULL);
     // create thread for IR object sensor
     // pthread_create(&thread2, NULL, &avoidance, NULL);
     // infinite loop until program is terminated
@@ -88,7 +116,7 @@ int main() {
 
     signal(SIGINT, Handler);
 
-    forward(100, 1);
+    forward(70, 1);
 
     // infinite loop for when the motor
     // reaches the backward function to

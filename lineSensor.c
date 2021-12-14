@@ -22,7 +22,13 @@ int leftLineSensor = 1;
 int middleLineSensor = 1;
 int rightLineSensor = 1;
 
-void* line(void* args, int lineSensor) {
+typedef struct {
+  int lineSensorPin;
+} lineSensorArgs;
+
+void* line(void* args) {
+    lineSensorArgs *sensorArgs = args;
+    int lineSensor = sensorArgs->lineSensorPin;
     pinMode(lineSensor, INPUT);
     // infinite loop
     while(1) {
